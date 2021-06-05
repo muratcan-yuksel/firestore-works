@@ -38,14 +38,14 @@ const renderCafe = (doc) => {
   });
 };
 //getting data
-db.collection("cafes")
-  .get()
-  .then((snapshot) => {
-    snapshot.docs.forEach((doc) => {
-      //passing the above function
-      renderCafe(doc);
-    });
-  });
+// db.collection("cafes")
+//   .get()
+//   .then((snapshot) => {
+//     snapshot.docs.forEach((doc) => {
+//       //passing the above function
+//       renderCafe(doc);
+//     });
+//   });
 // video 4 saving data
 //let's grab the form
 const form = document.querySelector("#add-cafe-form");
@@ -60,4 +60,28 @@ form.addEventListener("submit", (e) => {
   form.name.value = "";
   form.city.value = "";
 });
-//video 5 DELETING DATA
+// //lesson 6 making queries
+// //this can be used to get only the best score
+// //instead of "==" we can use "<" or ">" too and for "london", a number like 0, 5, 1000 etc.
+// db.collection("cafes")
+//   .where("city", "==", "london")
+//   .get()
+//   .then((snapshot) => {
+//     snapshot.docs.forEach((doc) => {
+//       //passing the above function
+//       renderCafe(doc);
+//     });
+//   });
+
+//lesson 7 Ordering data
+//orders alphabetically with orderBy
+db.collection("cafes")
+  .orderBy("city")
+  .get()
+  .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      //passing the above function
+      renderCafe(doc);
+    });
+  });
+//lesson 8 Real-time data
