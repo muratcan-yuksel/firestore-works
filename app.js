@@ -75,13 +75,38 @@ form.addEventListener("submit", (e) => {
 
 //lesson 7 Ordering data
 //orders alphabetically with orderBy
+// db.collection("cafes")
+//   .orderBy("city")
+//   .get()
+//   .then((snapshot) => {
+//     snapshot.docs.forEach((doc) => {
+//       //passing the above function
+//       renderCafe(doc);
+//     });
+//   });
+//lesson 8 Real-time data
+//real-time listener
 db.collection("cafes")
   .orderBy("city")
-  .get()
-  .then((snapshot) => {
-    snapshot.docs.forEach((doc) => {
-      //passing the above function
-      renderCafe(doc);
+  .onSnapshot((snapshot) => {
+    let changes = snapshot.docChanges();
+    changes.forEach((change) => {
+      if (change.type == "added") {
+        renderCafe(change.doc);
+      } else if (change.type == "removed") {
+        let li = cafeList.querySelector("[data-id=" + change.doc.id + "]");
+        cafeList.removeChild(li);
+      }
     });
   });
-//lesson 8 Real-time data
+//lesson 9 updating data
+//I got the id of dubliners by inspecting it
+db.collection("cafes").doc("0v6WRMcBJ7lEVG1LIEmJ").update({
+  name: "Wairo World",
+});
+//this one completely overrides  the whole document
+db.collection("cafes").doc("0v6WRMcBJ7lEVG1LIEmJ").set({
+  name: "Wairo earth",
+  city: "liverpool",
+});
+//I think the first one, update, would be more useful for me
